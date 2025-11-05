@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import {Providers} from "./Providers";
 import { Geist, Geist_Mono } from "next/font/google";
+// @ts-ignore: allow importing CSS as a side-effect in Next.js app
 import "./globals.css";
 import Navbar from "../components/Navbar";
-import { Providers } from "../app/Providers"
+// import { Providers } from "../app/Providers"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

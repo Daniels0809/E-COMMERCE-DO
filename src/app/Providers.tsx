@@ -9,3 +9,5 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+
+//register, login, 
