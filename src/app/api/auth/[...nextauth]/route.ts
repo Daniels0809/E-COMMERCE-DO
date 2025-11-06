@@ -16,10 +16,10 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         // Simulación de usuario
-        const user = { id: "1", name: "David", email: "david@riwi.com" };
+        const user = { id: "1", name: "Daniel", email: "daniel@riwi.com" };
 
         if (
-          credentials?.email === "david@riwi.com" &&
+          credentials?.email === "daniel@riwi.com" &&
           credentials?.password === "1234"
         ) {
           return user;
@@ -29,7 +29,7 @@ const handler = NextAuth({
     }),
   ],
   pages: {signIn: "/login"},
-  secret: process.env.NEXTAUTH_SECRET,
+
 });
 
 export { handler as GET, handler as POST };

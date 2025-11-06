@@ -3,7 +3,7 @@ import { LoginProps } from '../types';
 
 // const url = 'http://localhost:3000/api/properties';
 
-export const getProperties = async () => {
+export const getUsers = async () => {
     const response = await axios.get('/api/users');
     console.log(response.data.data)
 
@@ -22,13 +22,13 @@ export const login = async ({email,pass}: LoginProps) => {
 }
 
 
-export const editProperty = async ( id:string, name: string, value: number, img: string) => {
+export const editUsers = async ( id:string, name: string, email: string, pass: string) => {
     
     try{
-        const response = await axios.put(`http://localhost:3000/api/properties/${id}`, {
+        const response = await axios.put(`/api/users/${id}`, {
         name: name,
-        value: value,
-        img: img
+        email: email,
+        pass: pass
         
     })
     console.log('Response:', response.data)
@@ -38,6 +38,20 @@ export const editProperty = async ( id:string, name: string, value: number, img:
     }
 }
 
+
+export const deleteUser = async ( id: string ) => {
+
+    try {
+        const response = await axios.delete(`/api/users`, {params: {id}})
+        return response.data
+
+    }
+    catch (error) {
+        console.log(error)
+        throw error;
+        
+    }
+}
 
 // try
 // catch-finally
