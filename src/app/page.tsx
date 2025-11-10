@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Button from "../components/button/Button";
 
 const categories = [
   {
@@ -22,6 +23,10 @@ const categories = [
 ];
 
 const HomePage = () => {
+
+  const handleClick = () => console.log ('Clicked!');
+ 
+
   return (
     <main className="relative min-h-screen bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white overflow-hidden">
       {/* Efecto de fondo animado */}
@@ -109,6 +114,8 @@ const HomePage = () => {
             </motion.div>
           ))}
         </div>
+
+       <Button label="Click me" onClick={handleClick} />
       </section>
     </main>
   );
