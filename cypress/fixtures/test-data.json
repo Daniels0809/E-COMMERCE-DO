@@ -1,0 +1,35 @@
+{
+  "urls": {
+    "home": "/",
+    "register": "/register",
+    "dashboard": "/dashboard"
+  },
+  "selectors": {
+    "forms": {
+      "registerForm": "form",
+      "loginForm": "form"
+    },
+    "inputs": {
+      "cc": "input[name='cc']",
+      "name": "input[name='name']",
+      "email": "input[name='email']",
+      "password": "input[name='pass']"
+    },
+    "buttons": {
+      "submit": "button[type='submit']",
+      "logout": "button:contains('Cerrar Sesión')"
+    }
+  },
+  "messages": {
+    "success": {
+      "register": "Usuario registrado exitosamente",
+      "login": "Bienvenido"
+    },
+    "errors": {
+      "requiredField": "es requerido",
+      "invalidEmail": "Email inválido",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "invalidCredentials": "Credenciales inválidas"
+    }
+  }
+}
