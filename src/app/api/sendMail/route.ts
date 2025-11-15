@@ -67,6 +67,7 @@ export async function POST(req: Request) {
     let html = `<h1>Hola amiguito</h1><p>${p1}</p>`;
     let attachments: any[] = [];
 
+    
     switch (tipo) {
       case "html":
         html = `

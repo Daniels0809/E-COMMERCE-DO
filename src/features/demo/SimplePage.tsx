@@ -1,0 +1,23 @@
+'use client'
+
+import Button from "../../components/button/Button";
+import Display from "../../components/Display";
+import { useState } from "react"
+
+
+
+
+
+export default function SimplePage() {
+    const [value, set] = useState(0);
+
+    return (
+
+        <div>
+            <h1>Demo</h1>
+            <Display value={value}/>
+            <Button label="+" onClick={() => set((v) => v + 1)}/>
+            <Button label="-" onClick={() => set((v) => v - 1)}/>
+        </div>
+    )
+};

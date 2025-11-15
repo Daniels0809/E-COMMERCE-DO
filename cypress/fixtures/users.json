@@ -1,0 +1,36 @@
+{
+  "validUser": {
+    "cc": "1234567890",
+    "name": "Usuario Válido",
+    "tel": "3001234567",
+    "email": "valido@example.com",
+    "password": "ValidPassword123!"
+  },
+  "invalidUsers": {
+    "emptyFields": {
+      "cc": "",
+      "name": "",
+      "tel": "",
+      "email": "",
+      "password": ""
+    },
+    "invalidEmail": {
+      "cc": "1234567890",
+      "name": "Usuario Test",
+      "tel": "3001234567",
+      "email": "email-invalido",
+      "password": "Password123!"
+    },
+    "weakPassword": {
+      "cc": "1234567890",
+      "name": "Usuario Test",
+      "tel": "3001234567",
+      "email": "test@example.com",
+      "password": "123"
+    }
+  },
+  "testConfig": {
+    "apiTimeout": 10000,
+    "pageLoadTimeout": 30000
+  }
+}
