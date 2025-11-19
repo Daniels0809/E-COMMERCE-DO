@@ -1,13 +1,23 @@
 import axios from "axios"
 
-export const register = async (name: string, email: string, password: string) => {
+interface RegisterResponse {
+    massage: string;
+    userId: string;
+}
+
+export const register = async (name: string, email: string, pass: string): Promise<RegisterResponse> => {
     try {
-        const res = await axios.post("api/register", {
+        const res = await axios.post<RegisterResponse>("api/register", {
             name,
             email,
-            password
-        })
+            pass
+        });
+
+
+        return res.data
     } catch (error) {
         console.log("Error: ", error)
+
+        throw new Error("Fallo en la conexion")
     }
 }

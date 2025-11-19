@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import dbConnection from "@/src/lib/dbconection";
+import User from "@/src/database/models/users";
 
 const handler = NextAuth({
   providers: [
@@ -15,20 +17,39 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Simulación de usuario
-        const user = { id: "1", name: "Daniel", email: "daniel@riwi.com" };
-
-        if (
-          credentials?.email === "daniel@riwi.com" &&
-          credentials?.password === "1234"
-        ) {
-          return user;
+        
+        if (!credentials?.email || !credentials?.password) {
+          return null;
         }
-        return null;
+
+        await dbConnection();
+
+        const userFound = await User.findOne({email: credentials.email}).select('+pass');
+
+        if(!userFound) {
+          throw new Error("Credenciales invalidas");
+        }
+
+        const isMatch = (credentials.password === userFound.pass);
+
+        if(!isMatch) {
+          throw new Error("Contraseña incorrecta")
+        }
+       
+        return {
+          id: userFound._id.toString(),
+          name: userFound.name,
+          email: userFound.email,
+        };
       },
     }),
   ],
   pages: {signIn: "/login"},
+
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 
 });
 

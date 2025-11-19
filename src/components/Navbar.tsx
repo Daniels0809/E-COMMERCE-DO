@@ -2,8 +2,17 @@
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
+
+
 export const Navbar = () => {
   const { data: session } = useSession();
+
+  const openCreateProductModal = () => {
+    setModalMode("create");
+    setSelectedProduct({
+      
+    })
+  }
 
   return (
     <nav className="bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800 shadow-md">
@@ -39,7 +48,7 @@ export const Navbar = () => {
               href="/products"
               className="hover:text-sky-400 transition font-medium"
             >
-             Products
+              Products
             </Link>
 
             <div className="flex items-center gap-3 bg-slate-800 px-3 py-1.5 rounded-full hover:bg-slate-700 transition">
@@ -66,14 +75,33 @@ export const Navbar = () => {
             >
               Logout
             </button>
+
+            <div>
+              <button
+              onClick={openCreateProductModal}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition"
+              >
+                Añadir producto
+              </button>
+            </div>
           </div>
         ) : (
-          <button
-            onClick={() => signIn()}
-            className="bg-sky-500 hover:bg-sky-600 transition px-4 py-2 rounded-md font-medium shadow-md"
-          >
-            Sign In
-          </button>
+          <>
+            <div className="space-x-2">
+              <button
+                onClick={() => signIn()}
+                className="bg-sky-500 hover:bg-sky-600 transition px-4 py-2 rounded-md font-medium shadow-md"
+              >
+                Sign In
+              </button>
+
+              <button
+                className="bg-sky-500 hover:bg-sky-600 transition px-4 py-2 rounded-md font-medium shadow-md"
+              >
+                <Link href="/register">Register</Link>
+              </button>
+            </div>
+          </>
         )}
       </div>
     </nav>
