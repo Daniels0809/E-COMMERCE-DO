@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import {Providers} from "./providers";
 import { Geist, Geist_Mono } from "next/font/google";
-// @ts-ignore: allow importing CSS as a side-effect in Next.js app
+import Providers from "../app/Providers"
 import "./globals.css";
 import Navbar from "../components/Navbar";
 // import { Providers } from "../app/Providers"

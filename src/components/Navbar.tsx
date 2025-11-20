@@ -4,14 +4,12 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 
 
-export const Navbar = () => {
+ const Navbar = () => {
   const { data: session } = useSession();
 
   const openCreateProductModal = () => {
-    setModalMode("create");
-    setSelectedProduct({
       
-    })
+    
   }
 
   return (
