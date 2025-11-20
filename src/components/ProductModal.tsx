@@ -41,7 +41,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
 }) => {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-gray-300/60 via-gray-400/40 to-gray-500/30 backdrop-blur-md transition-all duration-300">
+    <div className="text-black fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-gray-300/60 via-gray-400/40 to-gray-500/30 backdrop-blur-md transition-all duration-300">
       <div className="bg-white/95 rounded-2xl shadow-2xl w-full max-w-md p-8 border border-gray-200 relative animate-fadeIn">
         {/* Título */}
         <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
@@ -224,7 +224,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
                     : "bg-indigo-600 hover:bg-indigo-700"
                 }`}
               >
-                {mode === "create" ? "Crear Libro" : "Actualizar Libro"}
+                {mode === "create" ? "Crear Producto" : mode === "edit" ? "Actualizar Producto" : mode === "delete" ? "Eliminar Producto" : ""}
               </button>
             )}
           </div>

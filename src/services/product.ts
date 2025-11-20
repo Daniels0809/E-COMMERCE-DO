@@ -24,9 +24,7 @@ export const editProduct = async (_id: string, product: ProductProps) => {
 
 export const deleteProduct = async (_id: string) => {
   try {
-    const response = await axios.delete(`/api/products`, {
-        params: {_id}
-    });
+    const response = await axios.delete(`/api/products/${_id}`);
     return response.data;
   } catch (error) {
     console.log(error);

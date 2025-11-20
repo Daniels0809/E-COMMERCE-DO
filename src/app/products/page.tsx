@@ -1,8 +1,15 @@
 "use client";
 import ProductCard from "@/src/components/ProductCard";
-import { getProducts } from "@/src/services/product";
+import { PerfumeModal } from "@/src/components/ProductModal";
+import {
+  createProduct,
+  deleteProduct,
+  editProduct,
+  getProducts,
+} from "@/src/services/product";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { string } from "yup";
 
 interface ProductProps {
   _id?: string;
@@ -26,6 +33,22 @@ const ProductsPage = () => {
     data: [],
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"create" | "edit" | "delete">(
+    "create"
+  );
+
+  const [selectedProduct, setSelectedProduct] = useState<ProductProps>({
+    _id: "",
+    name: "",
+    category: "",
+    price: 0,
+    img: "",
+    stock: 0,
+    description: "",
+    createdAt: "",
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       const products = await getProducts();
@@ -34,10 +57,58 @@ const ProductsPage = () => {
     fetchData();
   }, []);
 
+  const openCreateModal = () => {
+    setModalMode("create");
+    setSelectedProduct({
+      _id: "",
+      name: "",
+      category: "",
+      price: 0,
+      img: "",
+      stock: 0,
+      description: "",
+      createdAt: new Date().toISOString(),
+    });
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (product: ProductProps) => {
+    setModalMode("edit");
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const openDeleteModal = (product: ProductProps) => {
+    setModalMode("delete");
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async () => {
+    if (modalMode === "create") {
+      await createProduct(selectedProduct);
+    } else if (modalMode === "edit") {
+      if (!selectedProduct._id) {
+        console.warn("No se puede editar un producto sin un _id");
+        return;
+      }
+      await editProduct(selectedProduct._id, selectedProduct);
+    } else if (modalMode === "delete") {
+      if (!selectedProduct._id) {
+        console.log("No se puede eliminar el producto sin _id");
+        return;
+      }
+      await deleteProduct(selectedProduct._id);
+    }
+
+    const products = await getProducts();
+    setDataProducts(products);
+
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-slate-900 text-white px-6 py-14">
-
-      {/* 🔥 HEADER / HERO */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -52,11 +123,17 @@ const ProductsPage = () => {
           El poder de una esencia eterna.
         </p>
 
-        {/* línea decorativa futurista */}
         <div className="w-32 h-1 mx-auto mt-4 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 shadow-cyan-500/50 shadow-md" />
       </motion.div>
 
-      {/* 🌐 GRILLA DE PRODUCTOS */}
+      <div className="mb-10">
+        <button
+          onClick={openCreateModal}
+          className="mb-10 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 rounded-xl font-semibold"
+        >
+          Crear producto
+        </button>
+      </div>
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12"
         initial="hidden"
@@ -75,7 +152,7 @@ const ProductsPage = () => {
             }}
             whileHover={{
               scale: 1.04,
-              boxShadow: "0px 0px 35px 8px rgba(0,180,255,0.25)"
+              boxShadow: "0px 0px 35px 8px rgba(0,180,255,0.25)",
             }}
             transition={{ duration: 0.35 }}
             className="
@@ -86,7 +163,6 @@ const ProductsPage = () => {
               transition-all overflow-hidden
             "
           >
-            {/* Glow interno */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-cyan-500 to-purple-600 blur-2xl transition-all"></div>
 
             <ProductCard
@@ -98,11 +174,20 @@ const ProductsPage = () => {
               description={product.description}
               createdAt={product.createdAt}
               onEdit={() => openEditModal(product)}
-              onDelete={() => deleteProduct(product._id)}
+              onDelete={() => openDeleteModal(product)}
             />
           </motion.div>
         ))}
       </motion.div>
+
+      <PerfumeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+        mode={modalMode}
+        perfume={selectedProduct}
+        setPerfume={setSelectedProduct}
+      />
     </div>
   );
 };

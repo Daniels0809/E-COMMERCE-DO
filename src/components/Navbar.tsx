@@ -73,15 +73,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
             >
               Logout
             </button>
-
-            <div>
-              <button
-              onClick={openCreateProductModal}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition"
-              >
-                Añadir producto
-              </button>
-            </div>
           </div>
         ) : (
           <>
