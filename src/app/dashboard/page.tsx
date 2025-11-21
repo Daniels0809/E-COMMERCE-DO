@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 
+
 const DashboardPage = () => {
   const { data: session } = useSession();
 

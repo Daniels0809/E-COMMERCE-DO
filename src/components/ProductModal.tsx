@@ -1,4 +1,4 @@
-"use clien";
+"use client";
 import React from "react";
 
 interface ModalProps {
@@ -60,26 +60,6 @@ export const PerfumeModal: React.FC<ModalProps> = ({
           }}
           className="space-y-4"
         >
-          {/* perfume ID */}
-          {mode === "create" && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Perfume ID
-              </label>
-              <input
-                type="text"
-                value={perfume._id}
-                onChange={(e) =>
-                  setPerfume({
-                    ...perfume,
-                    _id: String(e.target.value),
-                  })
-                }
-                className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400 outline-none"
-                placeholder="perfume ID"
-              />
-            </div>
-          )}
 
           {/* Title */}
           <div>

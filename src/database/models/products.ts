@@ -8,9 +8,8 @@ const productsSchema = new Schema({
     category: {
         type: String,
         required: [true, "La categoria es requerida"],
-        unique: true,
         trim: true,
-        lowecase: true,
+        lowercase: true,
     },
     price: {
         type: Number,
