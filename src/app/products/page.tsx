@@ -98,6 +98,7 @@ const ProductsPage = () => {
         console.log("No se puede eliminar el producto sin _id");
         return;
       }
+      console.log(selectedProduct._id)
       await deleteProduct(selectedProduct._id);
     }
 
