@@ -39,7 +39,6 @@ const ProductsPage = () => {
   );
 
   const [selectedProduct, setSelectedProduct] = useState<ProductProps>({
-    _id: "",
     name: "",
     category: "",
     price: 0,
@@ -60,7 +59,6 @@ const ProductsPage = () => {
   const openCreateModal = () => {
     setModalMode("create");
     setSelectedProduct({
-      _id: "",
       name: "",
       category: "",
       price: 0,
