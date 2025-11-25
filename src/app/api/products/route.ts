@@ -1,6 +1,7 @@
 import Product from "@/src/database/models/products";
 import dbConnection from "@/src/lib/dbconection";
 import { NextResponse } from "next/server";
+import { uploadImage } from "@/src/lib/cloudinary";
 
 //GET
 export async function GET() {
@@ -18,11 +19,37 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     await dbConnection();
-    const body = await request.json();
 
-    const newProduct = await Product.create(body);
+    const formData = await request.formData();
+
+
+    const name = formData.get("name") as string;
+    const category = formData.get("category") as string;
+    const price = Number(formData.get("price"));
+    const stock = Number(formData.get("stock"));
+    const description = formData.get("description") as string;
+    const createdAt = formData.get("createdAt") as string;
+
+    const file = formData.get("image") as File | null;
+
+    let uploadedImageURL = "/placeholder.jpg";
+
+    // Subimos imagen solo si existe archivo
+    if (file instanceof File && file.size > 0) {
+      uploadedImageURL = await uploadImage(file);
+    }
+    const newProduct = await Product.create({
+      name,
+      category,
+      price,
+      stock,
+      description,
+      createdAt,
+      image: uploadedImageURL,
+    });
 
     return NextResponse.json({ ok:true, data: newProduct });
+
   } catch (error) {
     console.log("error", error)
     return NextResponse.json({ok:false, error }, { status: 500 });

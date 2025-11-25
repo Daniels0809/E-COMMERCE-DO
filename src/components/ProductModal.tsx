@@ -11,7 +11,7 @@ interface ModalProps {
     name: string;
     category: string;
     price: number;
-    img: string;
+    img: string | File;
     stock: number;
     description: string;
     createdAt: string;
@@ -23,7 +23,7 @@ interface ModalProps {
       name: string;
       category: string;
       price: number;
-      img: string;
+      img: string | File;
       stock: number;
       description: string;
       createdAt: string;
@@ -60,7 +60,6 @@ export const PerfumeModal: React.FC<ModalProps> = ({
           }}
           className="space-y-4"
         >
-
           {/* Title */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -113,26 +112,25 @@ export const PerfumeModal: React.FC<ModalProps> = ({
               Image URL
             </label>
             <input
-              type="text"
-              value={perfume.img}
+              type="file"
+              accept="image/*"
               onChange={(e) => {
-                const value = e.target.value.trim();
-                if (
-                  value === "" ||
-                  value.startsWith("http://") ||
-                  value.startsWith("https://") ||
-                  value.startsWith("/")
-                ) {
-                  setPerfume({ ...perfume, img: e.target.value });
-                } else {
-                  alert(
-                    "⚠ La URL de la imagen debe empezar con 'http', 'https' o '/'"
-                  );
+                const file = e.target.files?.[0];
+                if (file) {
+                  setPerfume({ ...perfume, img: file });
                 }
               }}
               className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400 outline-none"
-              placeholder="https://example.com/perfume.jpg"
             />
+            {mode === "edit" &&
+              typeof perfume.img === "string" &&
+              perfume.img.startsWith("http") && (
+                <img
+                  src={perfume.img}
+                  alt="Vista previa"
+                  className="mt-2 w-24 h-24 object-cover rounded-lg border"
+                />
+              )}
           </div>
 
           {/* Stock */}
@@ -204,7 +202,13 @@ export const PerfumeModal: React.FC<ModalProps> = ({
                     : "bg-indigo-600 hover:bg-indigo-700"
                 }`}
               >
-                {mode === "create" ? "Crear Producto" : mode === "edit" ? "Actualizar Producto" : mode === "delete" ? "Eliminar Producto" : ""}
+                {mode === "create"
+                  ? "Crear Producto"
+                  : mode === "edit"
+                  ? "Actualizar Producto"
+                  : mode === "delete"
+                  ? "Eliminar Producto"
+                  : ""}
               </button>
             )}
           </div>

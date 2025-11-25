@@ -1,9 +1,9 @@
 import { v2 as cloudinary } from "cloudinary";
 
 const {
-  CLOUDINARY_CLOUD_NAME,
-  CLOUDINARY_API_KEY,
-  CLOUDINARY_API_SECRET,
+  CLOUDINARY_NAME,
+  CLOUDINARY_KEY,
+  CLOUDINARY_SECRET,
 } = process.env;
 
 let isConfigured = false;
@@ -11,20 +11,20 @@ let isConfigured = false;
 // Ensure Cloudinary is configured
 function ensureConfig() {
   if (
-    !CLOUDINARY_CLOUD_NAME ||
-    !CLOUDINARY_API_KEY ||
-    !CLOUDINARY_API_SECRET
+    !CLOUDINARY_NAME ||
+    !CLOUDINARY_KEY ||
+    !CLOUDINARY_SECRET
   ) {
     throw new Error(
-      "Configure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET in your .env"
+      "Configure CLOUDINARY_CLOUD_NAME, CLOUDINARY_KEY and CLOUDINARY_SECRET in your .env"
     );
   }
 
   if (!isConfigured) {
     cloudinary.config({
-      cloud_name: CLOUDINARY_CLOUD_NAME,
-      api_key: CLOUDINARY_API_KEY,
-      api_secret: CLOUDINARY_API_SECRET,
+      cloud_name: CLOUDINARY_NAME,
+      api_key: CLOUDINARY_KEY,
+      api_secret: CLOUDINARY_SECRET,
       secure: true,
     });
     isConfigured = true;

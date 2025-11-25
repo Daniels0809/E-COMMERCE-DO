@@ -16,7 +16,7 @@ interface ProductProps {
   name: string;
   category: string;
   price: number;
-  img: string;
+  img: string | File;
   stock: number;
   description: string;
   createdAt: string;
@@ -169,7 +169,7 @@ const ProductsPage = () => {
               category={product.category}
               price={product.price}
               stock={product.stock}
-              img={product.img}
+              img={typeof product.img === "string" ? product.img : ""}
               description={product.description}
               createdAt={product.createdAt}
               onEdit={() => openEditModal(product)}

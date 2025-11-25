@@ -9,18 +9,54 @@ export const getProducts = async () => {
 };
 
 export const createProduct = async (product: ProductProps) => {
-  const response = await axios.post('/api/products', product);
+  
+  const formData = new FormData();
+
+  formData.append("name", product.name);
+  formData.append("category", product.category);
+  formData.append("price", String(product.price));
+  formData.append("stock", String(product.stock));
+  formData.append("description", product.description);
+  formData.append("createdAt", product.createdAt);
+
+  if(product.img instanceof File){
+    formData.append("image", product.img);
+  }
+  
+  const response = await axios.post('/api/products', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data; 
 };
 
 export const editProduct = async (_id: string, product: ProductProps) => {
   try {
-    const response = await axios.put(`/api/products`, {_id, ...product});
+    const formData = new FormData();
+
+    formData.append("_id", _id);
+    formData.append("name", product.name);
+    formData.append("category", product.category);
+    formData.append("price", String(product.price));
+    formData.append("stock", String(product.stock));
+    formData.append("description", product.description);
+    formData.append("createdAt", product.createdAt);
+
+    if (product.img instanceof File) {
+      formData.append("image", product.img);
+    }
+
+    const response = await axios.put('/api/products', formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
     return response.data;
   } catch (error) {
-    console.log("Error: ", error);
+    console.log("Error editProduct: ", error);
   }
 };
+
 
 export const deleteProduct = async (_id: string) => {
   try {
