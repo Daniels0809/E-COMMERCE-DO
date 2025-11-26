@@ -11,7 +11,7 @@ interface ModalProps {
     name: string;
     category: string;
     price: number;
-    img: string | File;
+    image: string | File;
     stock: number;
     description: string;
     createdAt: string;
@@ -23,7 +23,7 @@ interface ModalProps {
       name: string;
       category: string;
       price: number;
-      img: string | File;
+      image: string | File;
       stock: number;
       description: string;
       createdAt: string;
@@ -117,16 +117,16 @@ export const PerfumeModal: React.FC<ModalProps> = ({
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
-                  setPerfume({ ...perfume, img: file });
+                  setPerfume({ ...perfume, image: file });
                 }
               }}
               className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400 outline-none"
             />
             {mode === "edit" &&
-              typeof perfume.img === "string" &&
-              perfume.img.startsWith("http") && (
+              typeof perfume.image === "string" &&
+              perfume.image.startsWith("http") && (
                 <img
-                  src={perfume.img}
+                  src={perfume.image}
                   alt="Vista previa"
                   className="mt-2 w-24 h-24 object-cover rounded-lg border"
                 />

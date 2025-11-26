@@ -8,7 +8,7 @@ export interface ProductProps {
     name: string;
     category: string;
     price: number;
-    img: string | File;
+    image: string | File;
     stock: number;
     description: string;
     createdAt: string;

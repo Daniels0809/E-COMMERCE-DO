@@ -6,7 +6,7 @@ interface Props {
   category: string;
   price: number;
   stock: number;
-  img?: string;
+  image?: string;
   description: string;
   createdAt?: string;
   onEdit?: () => void;
@@ -18,15 +18,15 @@ export const ProductCard: React.FC<Props> = ({
   category,
   price,
   stock,
-  img,
+  image,
   description,
   createdAt,
   onEdit,
   onDelete,
 }) => {
   const validImg =
-    img && (img.startsWith("http") || img.startsWith("/"))
-      ? img
+    image && (image.startsWith("http") || image.startsWith("/"))
+      ? image
       : "/default-product.png";
 
   return (

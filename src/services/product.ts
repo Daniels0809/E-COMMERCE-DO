@@ -19,8 +19,8 @@ export const createProduct = async (product: ProductProps) => {
   formData.append("description", product.description);
   formData.append("createdAt", product.createdAt);
 
-  if(product.img instanceof File){
-    formData.append("image", product.img);
+  if(product.image instanceof File){
+    formData.append("image", product.image);
   }
   
   const response = await axios.post('/api/products', formData, {
@@ -43,8 +43,8 @@ export const editProduct = async (_id: string, product: ProductProps) => {
     formData.append("description", product.description);
     formData.append("createdAt", product.createdAt);
 
-    if (product.img instanceof File) {
-      formData.append("image", product.img);
+    if (product.image instanceof File) {
+      formData.append("image", product.image);
     }
 
     const response = await axios.put('/api/products', formData, {

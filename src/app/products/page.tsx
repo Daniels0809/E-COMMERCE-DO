@@ -16,7 +16,7 @@ interface ProductProps {
   name: string;
   category: string;
   price: number;
-  img: string | File;
+  image: string | File;
   stock: number;
   description: string;
   createdAt: string;
@@ -42,7 +42,7 @@ const ProductsPage = () => {
     name: "",
     category: "",
     price: 0,
-    img: "",
+    image: "",
     stock: 0,
     description: "",
     createdAt: "",
@@ -62,7 +62,7 @@ const ProductsPage = () => {
       name: "",
       category: "",
       price: 0,
-      img: "",
+      image: "",
       stock: 0,
       description: "",
       createdAt: new Date().toISOString(),
@@ -169,7 +169,7 @@ const ProductsPage = () => {
               category={product.category}
               price={product.price}
               stock={product.stock}
-              img={typeof product.img === "string" ? product.img : ""}
+              image={typeof product.image === "string" ? product.image : ""}
               description={product.description}
               createdAt={product.createdAt}
               onEdit={() => openEditModal(product)}

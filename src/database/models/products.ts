@@ -15,7 +15,7 @@ const productsSchema = new Schema({
         type: Number,
         required: [true, "El precio es obligatorio"],
     },
-    img: {
+    image: {
         type: String,
         default: "/placeholder.jpg"
     },
