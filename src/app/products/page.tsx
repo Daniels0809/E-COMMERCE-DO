@@ -96,7 +96,7 @@ const ProductsPage = () => {
         console.log("No se puede eliminar el producto sin _id");
         return;
       }
-      console.log(selectedProduct._id)
+      console.log(selectedProduct._id);
       await deleteProduct(selectedProduct._id);
     }
 
@@ -128,7 +128,14 @@ const ProductsPage = () => {
       <div className="mb-10">
         <button
           onClick={openCreateModal}
-          className="mb-10 px-6 py-3 bg-cyan-600 hover:bg-cyan-700 rounded-xl font-semibold"
+          className="
+          px-6 py-3 rounded-xl font-semibold
+          bg-gradient-to-r from-cyan-500 to-blue-600
+          hover:from-cyan-400 hover:to-blue-500
+          shadow-lg shadow-cyan-500/20  
+          hover:shadow-cyan-400/40
+          transition-all duration-300
+          "
         >
           Crear producto
         </button>

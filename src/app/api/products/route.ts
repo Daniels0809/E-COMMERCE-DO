@@ -60,9 +60,28 @@ export async function PUT(request: Request) {
   try {
     await dbConnection();
 
-    const body = await request.json();
-    const { _id, ...rest } = body;
-    const updateProduct = await Product.findByIdAndUpdate(_id, rest, {
+    const formData = await request.formData();
+    const _id = formData.get("_id") as string;
+    if (!_id){
+      return NextResponse.json({ok:false, error: "_id is required" }, { status: 400 });
+    }
+
+    const updateData: any = {
+      name: formData.get("name") as string,
+      category: formData.get("category") as string,
+      price: Number(formData.get("price")),
+      stock: Number(formData.get("stock")),
+      description: formData.get("description") as string,
+    };
+
+    const file = formData.get("image") as File | null;
+
+    if(file instanceof File && file.size > 0){
+      const imageUrl = await uploadImage(file);
+      updateData.image = imageUrl;
+    }
+
+    const updateProduct = await Product.findByIdAndUpdate(_id, updateData, {
       new: true,
     });
 
