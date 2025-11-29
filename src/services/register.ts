@@ -10,7 +10,8 @@ export const register = async (name: string, email: string, pass: string): Promi
         const res = await axios.post<RegisterResponse>("api/register", {
             name,
             email,
-            pass
+            pass,
+            role: "user",
         });
 
 

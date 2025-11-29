@@ -1,36 +1,36 @@
-import { Schema, model, Model } from "mongoose";
-import { unique } from "next/dist/build/utils";
-
+import { Schema, model, models } from "mongoose";
 
 const usersSchema = new Schema({
-    name:{
-        type: String,
-        required: [true, "El nombre es requerido"]
+  name: {
+    type: String,
+    required: [true, "El nombre es requerido"],
+  },
+  email: {
+    type: String,
+    required: [true, "El email es requerido"],
+    unique: true,
+    trim: true,
+    lowercase: true, // corregido
+  },
+  pass: {
+    type: String,
+    required: [true, "La contraseña es requerida"],
+  },
+  role: {
+    type: String,
+    enum: ["admin", "user"],
+    default: "user",
+    required: true,
+  },
+  cart: [
+    {
+      product: { type: Schema.Types.ObjectId, ref: "products" },
+      quantity: { type: Number, default: 1 },
     },
-    email: {
-        type: String,
-        required: [true, "El email es requerido"],
-        unique: true,
-        trim: true,
-        lowecase: true,
-    },
-    pass: {
-        type: String,
-        required: [true, "La contraseña es requerida"],
-    },
-    
+  ],
 });
 
-// Utiliza un patrón singleton para garantizar que solo se compile una instancia del modelo
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let User: Model<any>;
-try {
-    // Intenta compilar el modelo solo una vez
-    User= model("users");
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-} catch (error) {
-    // Si el modelo ya está compilado, úsalo
-    User = model("users", usersSchema);
-}
+// ESTA ES LA LINEA CORRECTA
+const User = models.User || model("User", usersSchema);
 
 export default User;

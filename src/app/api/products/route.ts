@@ -4,13 +4,50 @@ import { NextResponse } from "next/server";
 import { uploadImage } from "@/src/lib/cloudinary";
 
 //GET
-export async function GET() {
+export async function GET(request: Request) {
   try {
     await dbConnection();
-    const products = await Product.find();
-    return NextResponse.json({ok:true, data: products});
+
+    const {
+      search,
+      category,
+      page = "1",
+      limit = "10",
+    } = Object.fromEntries(new URL(request.url).searchParams);
+
+    const pageNum = parseInt(page as string, 10);
+    const limitNum = parseInt(limit as string, 10);
+    const skip = (pageNum - 1) * limitNum;
+
+    // Construir filtros dinámicos
+    const filters: any = {};
+
+    // Búsqueda por name o description
+    if (search) {
+      filters.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // Filtrado por categoría
+    if (category) {
+      filters.category = category;
+    }
+
+    const total = await Product.countDocuments(filters);
+    const products = await Product.find(filters).skip(skip).limit(limitNum);
+
+    return NextResponse.json({
+      ok: true,
+      page: pageNum,
+      limit: limitNum,
+      total,
+      totalPages: Math.ceil(total / limitNum),
+      data: products,
+    });
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json({ ok: false, error }, { status: 500 });
   }
 }
 
@@ -21,7 +58,6 @@ export async function POST(request: Request) {
     await dbConnection();
 
     const formData = await request.formData();
-
 
     const name = formData.get("name") as string;
     const category = formData.get("category") as string;
@@ -48,11 +84,10 @@ export async function POST(request: Request) {
       image: uploadedImageURL,
     });
 
-    return NextResponse.json({ ok:true, data: newProduct });
-
+    return NextResponse.json({ ok: true, data: newProduct });
   } catch (error) {
-    console.log("error", error)
-    return NextResponse.json({ok:false, error }, { status: 500 });
+    console.log("error", error);
+    return NextResponse.json({ ok: false, error }, { status: 500 });
   }
 }
 
@@ -62,8 +97,11 @@ export async function PUT(request: Request) {
 
     const formData = await request.formData();
     const _id = formData.get("_id") as string;
-    if (!_id){
-      return NextResponse.json({ok:false, error: "_id is required" }, { status: 400 });
+    if (!_id) {
+      return NextResponse.json(
+        { ok: false, error: "_id is required" },
+        { status: 400 }
+      );
     }
 
     const updateData: any = {
@@ -76,7 +114,7 @@ export async function PUT(request: Request) {
 
     const file = formData.get("image") as File | null;
 
-    if(file instanceof File && file.size > 0){
+    if (file instanceof File && file.size > 0) {
       const imageUrl = await uploadImage(file);
       updateData.image = imageUrl;
     }
@@ -85,10 +123,8 @@ export async function PUT(request: Request) {
       new: true,
     });
 
-    return NextResponse.json({ok:true,  data: updateProduct });
+    return NextResponse.json({ ok: true, data: updateProduct });
   } catch (error) {
-    return NextResponse.json({ok:false, error }, { status: 500 });
+    return NextResponse.json({ ok: false, error }, { status: 500 });
   }
 }
-
-

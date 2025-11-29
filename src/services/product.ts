@@ -2,11 +2,28 @@ import axios from "axios";
 import { ProductProps } from "../types";
 
 
-export const getProducts = async () => {
-  const response = await axios.get("/api/products");
-  console.log(response.data.data);
-  return response.data;
+export const getProducts = async ({
+  page = 1,
+  limit = 12,
+  search = "",
+  category = "",
+}: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  category?: string;
+} = {}) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: limit.toString(),
+    ...(search ? { search } : {}),
+    ...(category ? { category } : {}),
+  });
+
+  const response = await axios.get(`/api/products?${params.toString()}`);
+  return response.data; // { ok, data, totalPages, page }
 };
+
 
 export const createProduct = async (product: ProductProps) => {
   

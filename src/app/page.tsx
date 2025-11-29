@@ -132,10 +132,6 @@ const HomePage = () => {
             </motion.div>
           ))}
         </div>
-
-        <div className="flex justify-center mt-16">
-          <Button label="Vamos" onClick={handleClick} />
-        </div>
       </section>
     </main>
   );
