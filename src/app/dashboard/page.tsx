@@ -1,33 +1,35 @@
 "use client";
 import { useSession } from "next-auth/react";
+import { useTranslation } from "react-i18next";
 
 const DashboardPage = () => {
   const { data: session } = useSession();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-800 px-6 py-10">
       {/* Header */}
       <header className="mb-10">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold">{t("Dashboard")}</h1>
         <p className="text-sm text-slate-600">
-          Bienvenido {session?.user?.name ?? "Administrador"}
+          {t("Welcome")} {session?.user?.name ?? "Administrator"}
         </p>
       </header>
 
       {/* Métricas básicas */}
       <section className="grid md:grid-cols-3 gap-6 mb-10">
         <div className="p-5 bg-white rounded-xl shadow-sm border border-slate-200">
-          <p className="text-sm text-slate-500">Productos</p>
+          <p className="text-sm text-slate-500">{t("Products")}</p>
           <h2 className="text-2xl font-semibold mt-1">—</h2>
         </div>
 
         <div className="p-5 bg-white rounded-xl shadow-sm border border-slate-200">
-          <p className="text-sm text-slate-500">Usuarios</p>
+          <p className="text-sm text-slate-500">{t("Users")}</p>
           <h2 className="text-2xl font-semibold mt-1">—</h2>
         </div>
 
         <div className="p-5 bg-white rounded-xl shadow-sm border border-slate-200">
-          <p className="text-sm text-slate-500">Pedidos</p>
+          <p className="text-sm text-slate-500">{t("Orders")}</p>
           <h2 className="text-2xl font-semibold mt-1">—</h2>
         </div>
       </section>
@@ -35,9 +37,9 @@ const DashboardPage = () => {
       {/* Tabla simple */}
       <section className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-lg">Actividad reciente</h2>
+          <h2 className="font-semibold text-lg">{t("Recent Activity")}</h2>
           <button className="text-sm bg-slate-800 text-white px-3 py-1.5 rounded-md">
-            Ver todo
+            {t("View All")}
           </button>
         </div>
 
@@ -45,10 +47,10 @@ const DashboardPage = () => {
           <table className="w-full text-sm">
             <thead className="text-slate-600 border-b border-slate-200">
               <tr>
-                <th className="py-2 text-left">ID</th>
-                <th className="py-2 text-left">Acción</th>
-                <th className="py-2 text-left">Usuario</th>
-                <th className="py-2 text-left">Fecha</th>
+                <th className="py-2 text-left">{t("ID")}</th>
+                <th className="py-2 text-left">{t("Action")}</th>
+                <th className="py-2 text-left">{t("User")}</th>
+                <th className="py-2 text-left">{t("Date")}</th>
               </tr>
             </thead>
 

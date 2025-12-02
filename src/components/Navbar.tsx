@@ -3,11 +3,17 @@
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
-
+import { useTranslation } from "react-i18next";
+import i18n from "../app/i18n";
+import { Globe } from "lucide-react";
 const Navbar = () => {
+  const { t } = useTranslation();
+
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
-
+  function changeLanguage(lang: string) {
+    i18n.changeLanguage(lang);
+  }
   return (
     <nav className="bg-black border-b border-slate-800 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 text-white">
@@ -27,7 +33,7 @@ const Navbar = () => {
                 href="/dashboard"
                 className="hover:text-cyan-400 transition font-medium"
               >
-                Dashboard
+                {t("Dashboard")}
               </Link>
             )}
 
@@ -35,7 +41,13 @@ const Navbar = () => {
               href="/products"
               className="hover:text-cyan-400 transition font-medium"
             >
-              Productos
+              {t("Products")}
+            </Link>
+            <Link
+              href="/cart"
+              className="hover:text-cyan-400 transition font-medium"
+            >
+              {t("Your Cart")}
             </Link>
 
             <div className="relative">
@@ -64,7 +76,7 @@ const Navbar = () => {
                     onClick={() => signOut({ callbackUrl: "/" })}
                     className="w-full text-left text-sm px-3 py-2 rounded-md bg-red-500/80 hover:bg-red-600 transition text-white shadow-md"
                   >
-                    Cerrar sesión
+                    {t("Logout")}
                   </button>
                 </div>
               )}
@@ -76,16 +88,26 @@ const Navbar = () => {
               onClick={() => signIn()}
               className="px-4 py-2 rounded-md font-medium bg-gradient-to-r from-cyan-500 to-blue-600 hover:opacity-90 transition shadow-md"
             >
-              Iniciar sesión
+              {t("Login")}
             </button>
             <Link
               href="/register"
               className="px-4 py-2 rounded-md font-medium bg-gradient-to-r from-purple-500 to-pink-600 hover:opacity-90 transition shadow-md"
             >
-              Registrarse
+              {t("Register")}
             </Link>
           </div>
         )}
+
+        <div>
+          <button
+            onClick={() => changeLanguage(i18n.language === "en" ? "es" : "en")}
+            className="px-3 py-1 rounded-md border border-slate-600 hover:border-cyan-400 transition text-sm flex items-center gap-2"
+          >
+            <Globe className="w-5 h-5" />
+            {i18n.language.toUpperCase()}
+          </button>
+        </div>
       </div>
     </nav>
   );

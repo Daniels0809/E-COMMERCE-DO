@@ -1,48 +1,71 @@
 import User from "@/src/database/models/users";
+import Products from "@/src/database/models/products"; // 🔹 importa el modelo para que Mongoose lo conozca
 import dbConnection from "@/src/lib/dbconection";
-import type { NextApiRequest, NextApiResponse } from "next";
+import mongoose from "mongoose";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: Request) {
   await dbConnection();
 
-  const userId = req.query.userId as string;
-  if (!userId) return res.status(400).json({ ok: false, message: "UserId requerido" });
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get("userId");
 
-  const user = await User.findById(userId);
-  if (!user) return res.status(404).json({ ok: false, message: "Usuario no encontrado" });
-
-  if (req.method === "GET") {
-    return res.status(200).json({ ok: true, cart: user.cart || [] });
+  if (!userId) {
+    return Response.json({ ok: false, message: "UserId requerido" }, { status: 400 });
   }
 
-  if (req.method === "POST") {
-    const { productId, quantity } = req.body;
-    if (!productId || quantity < 1) return res.status(400).json({ ok: false, message: "Datos inválidos" });
+  const user = await User.findById(userId)
+    .populate({ path: "cart.productId", model: "products" })
+    .lean();
 
-    const existing = user.cart.find((p: { productId: string; quantity: number }) => p.productId === productId);
-    if (existing) existing.quantity += quantity;
-    else user.cart.push({ productId, quantity });
+  if (!user)
+    return Response.json({ ok: false, message: "Usuario no encontrado" }, { status: 404 });
 
-    await user.save();
-    return res.status(200).json({ ok: true, cart: user.cart });
+  return Response.json({ ok: true, cart: user.cart || [] });
+}
+
+export async function POST(req: Request) {
+  await dbConnection();
+
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get("userId");
+  const { productId, quantity } = await req.json();
+
+  if (!userId) {
+    return Response.json({ ok: false, message: "UserId requerido" }, { status: 400 });
   }
 
-  if (req.method === "PATCH") {
-    const { productId, quantity } = req.body;
-    user.cart = user.cart.map((p: { productId: string; quantity: number }) =>
-      p.productId === productId ? { ...p, quantity } : p
-    ).filter((p: { productId: string; quantity: number }) => p.quantity > 0);
+  let user = await User.findById(userId);
 
-    await user.save();
-    return res.status(200).json({ ok: true, cart: user.cart });
+  if (!user) {
+    return Response.json({ ok: false, message: "Usuario no encontrado" }, { status: 404 });
   }
 
-  if (req.method === "DELETE") {
-    const { productId } = req.body;
-    user.cart = user.cart.filter((p: { productId: string; quantity: number }) => p.productId !== productId);
-    await user.save();
-    return res.status(200).json({ ok: true, cart: user.cart });
+  if (!Array.isArray(user.cart)) {
+    user.cart = [];
   }
 
-  return res.status(405).json({ ok: false, message: "Método no permitido" });
+  const prodId =
+    mongoose.Types.ObjectId.isValid(productId)
+      ? new mongoose.Types.ObjectId(productId)
+      : productId;
+
+  const existing = user.cart.find(
+    (p: any) =>
+      (p.productId?._id?.toString() || p.productId?.toString()) === productId
+  );
+
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    user.cart.push({ productId: prodId, quantity });
+  }
+
+  await user.save();
+
+  // 🔹 populate usando el modelo correcto
+  user = await User.findById(userId)
+    .populate({ path: "cart.productId", model: "products" })
+    .lean();
+
+  return Response.json({ ok: true, cart: user.cart });
 }

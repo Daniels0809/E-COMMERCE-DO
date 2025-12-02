@@ -1,4 +1,5 @@
 "use client";
+import { t } from "i18next";
 import React from "react";
 
 interface ModalProps {
@@ -63,7 +64,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
           {/* Title */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Nombre
+              {t("Name")}
             </label>
             <input
               type="text"
@@ -77,7 +78,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
           {/* Category */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Category
+              {t("Category")}
             </label>
             <input
               type="text"
@@ -95,9 +96,9 @@ export const PerfumeModal: React.FC<ModalProps> = ({
 
           {/* Price */}
           <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700">Price</label>
+            <label className="text-sm font-medium text-gray-700">{t("Price")}</label>
             <input
-              type="number"
+              type={t("number")}
               value={perfume.price}
               onChange={(e) =>
                 setPerfume({ ...perfume, price: Number(e.target.value) })
@@ -109,7 +110,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
           {/* Image URL */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Image URL
+              {t("Image URL")}
             </label>
             <input
               type="file"
@@ -135,7 +136,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
 
           {/* Stock */}
           <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700">Stock</label>
+            <label className="text-sm font-medium text-gray-700">{t("Stock")}</label>
             <input
               type="number"
               value={perfume.stock}
@@ -149,7 +150,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
           {/*Description*/}
           <div className="flex items-center gap-2">
             <label className="text-sm font-medium text-gray-700">
-              Description
+              {t("Description")}
             </label>
             <input
               type="text"
@@ -164,7 +165,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
           {/* CreatedAt */}
           <div className="flex items-center gap-2">
             <label className="text-sm font-medium text-gray-700">
-              Created At
+              {t("Created At")}
             </label>
             <input
               type="text"
@@ -183,7 +184,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-gray-800 font-medium transition-all"
             >
-              Cancelar
+              {t("Cancel")}
             </button>
 
             {mode === "delete" ? (
@@ -191,7 +192,7 @@ export const PerfumeModal: React.FC<ModalProps> = ({
                 type="submit"
                 className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-all"
               >
-                Confirmar Eliminación
+                {t("Confirm Deletion")}
               </button>
             ) : (
               <button

@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import mongoose, { Schema, model, models } from "mongoose";
 
 const usersSchema = new Schema({
   name: {
@@ -23,14 +23,19 @@ const usersSchema = new Schema({
     required: true,
   },
   cart: [
-    {
-      product: { type: Schema.Types.ObjectId, ref: "products" },
-      quantity: { type: Number, default: 1 },
+  {
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "products",
     },
-  ],
+    quantity: {
+      type: Number
+    }
+  }
+]
+
 });
 
-// ESTA ES LA LINEA CORRECTA
 const User = models.User || model("User", usersSchema);
 
 export default User;

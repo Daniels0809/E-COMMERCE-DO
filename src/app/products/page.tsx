@@ -10,9 +10,10 @@ import {
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
 import { getCart, addToCart } from "@/src/services/cart";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+
 
 interface ProductProps {
   _id?: string;
@@ -32,6 +33,7 @@ interface DataProductsResponse {
 }
 
 const ProductsPage = () => {
+  const { t } = useTranslation();
   const [dataProducts, setDataProducts] = useState<DataProductsResponse>({
     ok: false,
     data: [],
@@ -146,10 +148,19 @@ const ProductsPage = () => {
   };
 
 const handleAddToCart = async (productId: string) => {
+    console.log("### CLICK ADD TO CART ###");
+  console.log("Session", session?.user);
+  console.log("POST a:", `/api/cart?userId=${session?.user?._id}`);
+  
+
   try {
     if (!session?.user?._id) return;
+
     const updatedCart = await addToCart(session.user._id, productId, 1);
+
+    console.log("Carrito actualizado:", updatedCart);
     setCart(updatedCart.cart);
+
     toast.success(
       <div>
         Producto agregado al carrito.{" "}
@@ -158,12 +169,12 @@ const handleAddToCart = async (productId: string) => {
         </a>
       </div>
     );
-
   } catch (error) {
     console.error("Error agregando al carrito", error);
     toast.error("No se pudo agregar al carrito");
   }
 };
+
 
 
 
@@ -180,7 +191,7 @@ const handleAddToCart = async (productId: string) => {
           Imperium Perfums
         </h1>
         <p className="mt-3 text-lg text-gray-300 max-w-xl mx-auto font-light">
-          El poder de una esencia eterna.
+          {t("The power of an eternal essence.")}
         </p>
         <div className="w-32 h-1 mx-auto mt-4 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 shadow-cyan-500/50 shadow-md" />
       </motion.div>
@@ -192,7 +203,7 @@ const handleAddToCart = async (productId: string) => {
             onClick={openCreateModal}
             className="px-6 py-3 rounded-xl font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/40 transition-all duration-300"
           >
-            Crear producto
+            {t("Create Product")}
           </button>
         </div>
       )}
@@ -203,7 +214,7 @@ const handleAddToCart = async (productId: string) => {
   <div className="relative w-full sm:w-64">
     <input
       type="text"
-      placeholder="Buscar producto..."
+      placeholder={t("Search products...")}
       value={search}
       onChange={(e) => {
         setSearch(e.target.value);
@@ -272,11 +283,11 @@ const handleAddToCart = async (productId: string) => {
           onClick={() => setPage(page - 1)}
           className="px-4 py-2 bg-cyan-500 rounded hover:bg-cyan-400 disabled:opacity-50"
         >
-          Anterior
+          {t("Previous")}
         </button>
 
         <span className="px-4 py-2 text-white">
-          Página {page} de {dataProducts.totalPages || 1}
+          {t("Page")} {page} {t("of")} {dataProducts.totalPages || 1}
         </span>
 
         <button
@@ -284,7 +295,7 @@ const handleAddToCart = async (productId: string) => {
           onClick={() => setPage(page + 1)}
           className="px-4 py-2 bg-cyan-500 rounded hover:bg-cyan-400 disabled:opacity-50"
         >
-          Siguiente
+          {t("Next")}
         </button>
       </div>
 

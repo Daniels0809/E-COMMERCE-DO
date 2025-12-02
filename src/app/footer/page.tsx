@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { SiInstagram, SiFacebook, SiYoutube, SiTiktok } from "react-icons/si";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="bg-gray-900 text-gray-300 py-14 px-6 border-t border-gray-800">
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 sm:grid-cols-2 gap-10">
@@ -13,32 +15,32 @@ const Footer = () => {
             Imperium Perfums
           </h2>
           <p className="text-sm text-gray-400 leading-relaxed">
-            Perfumería de lujo, aromas exclusivos y experiencias olfativas inolvidables.
+            {t("Luxury perfumery, exclusive aromas and unforgettable olfactory experiences.") }
           </p>
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-white">Navegación</h3>
+          <h3 className="text-lg font-semibold mb-4 text-white">{t("Navigation")}</h3>
           <ul className="space-y-2">
-            <li><Link href="/" className="hover:text-cyan-400 transition">Inicio</Link></li>
-            <li><Link href="/products" className="hover:text-cyan-400 transition">Perfumes</Link></li>
-            <li><Link href="/about" className="hover:text-cyan-400 transition">Nosotros</Link></li>
-            <li><Link href="/contact" className="hover:text-cyan-400 transition">Contacto</Link></li>
+            <li><Link href="/" className="hover:text-cyan-400 transition">{t("Home")}</Link></li>
+            <li><Link href="/products" className="hover:text-cyan-400 transition">{t("Perfumes")}</Link></li>
+            <li><Link href="/about" className="hover:text-cyan-400 transition">{t("About Us")}</Link></li>
+            <li><Link href="/contact" className="hover:text-cyan-400 transition">{t("Contact")}</Link></li>
           </ul>
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-white">Soporte</h3>
+          <h3 className="text-lg font-semibold mb-4 text-white">{t("Support")}</h3>
           <ul className="space-y-2">
-            <li><Link href="#" className="hover:text-cyan-400 transition">Preguntas frecuentes</Link></li>
-            <li><Link href="#" className="hover:text-cyan-400 transition">Política de envíos</Link></li>
-            <li><Link href="#" className="hover:text-cyan-400 transition">Garantías</Link></li>
-            <li><Link href="#" className="hover:text-cyan-400 transition">Términos y condiciones</Link></li>
+            <li><Link href="#" className="hover:text-cyan-400 transition">{t("Frequently Asked Questions")}</Link></li>
+            <li><Link href="#" className="hover:text-cyan-400 transition">{t("Shipping Policy")}</Link></li>
+            <li><Link href="#" className="hover:text-cyan-400 transition">{t("Guarantees")}</Link></li>
+            <li><Link href="#" className="hover:text-cyan-400 transition">{t("Terms and Conditions")}</Link></li>
           </ul>
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-white">Síguenos</h3>
+          <h3 className="text-lg font-semibold mb-4 text-white">{t("Follow Us")}</h3>
 
           <div className="flex gap-4">
             <a href="#" className="text-gray-400 hover:text-cyan-400 transition">
@@ -59,7 +61,7 @@ const Footer = () => {
       </div>
 
       <div className="text-center text-sm text-gray-500 mt-10">
-        © {new Date().getFullYear()} Imperium Perfums — Todos los derechos reservados.
+        © {new Date().getFullYear()} Imperium Perfums — {t("All rights reserved.")}.
       </div>
     </footer>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { t } from "i18next";
 
 interface Props {
   name: string;
@@ -77,7 +78,7 @@ export const ProductCard: React.FC<Props> = ({
           <span className="font-semibold text-violet-200 text-base">
             ${price.toFixed(2)}
           </span>
-          <span className="text-gray-400">{stock} units</span>
+          <span className="text-gray-400">{stock} {t("units")}</span>
         </div>
 
         <span className="block text-gray-300/90 text-sm mb-3 leading-relaxed tracking-wide">
@@ -85,7 +86,7 @@ export const ProductCard: React.FC<Props> = ({
         </span>
 
         <p className="text-xs text-gray-500 opacity-70 mb-3">
-          Added: {createdAt?.split("T")[0]}
+          {t("Added")}: {createdAt?.split("T")[0]}
         </p>
         {onAddToCart && (
           <button
@@ -94,7 +95,7 @@ export const ProductCard: React.FC<Props> = ({
             w-full py-1.5 rounded-md font-semibold text-sm bg-gradient-to-r from-blue-700 to-violet-700 
             hover:from-blue-600 hover:to-violet-600 shadow-[0_0_10px_rgba(120,60,255,0.25)] hover:shadow-0_0_18px_rgba(120,60,255,0.45)] transition-all duration-400 text-white tracking-wide mb-4"
           >
-            Añadir al carrito
+            {t("Add to Cart")}
           </button>
         )}
 
@@ -114,7 +115,7 @@ export const ProductCard: React.FC<Props> = ({
               text-white tracking-wide
             "
             >
-              Edit
+              {t("Edit")}
             </button>
 
             <button
@@ -131,7 +132,7 @@ export const ProductCard: React.FC<Props> = ({
               text-white tracking-wide
             "
             >
-              Delete
+              {t("Delete")}
             </button>
           </div>
         )}

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Button from "../components/button/Button";
+import { useTranslation } from "react-i18next";
 
 const categories = [
   {
@@ -24,6 +25,7 @@ const categories = [
 
 const HomePage = () => {
   const handleClick = () => console.log("Clicked!");
+  const { t } = useTranslation();
 
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-black via-slate-950 to-slate-900 text-white overflow-hidden">
@@ -47,9 +49,9 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          La Esencia del{" "}
+          {t("The Essence of")}{" "}
           <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Lujo y la Elegancia
+            {t("Luxury and Elegance")}  
           </span>
         </motion.h1>
 
@@ -59,8 +61,7 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.9 }}
         >
-          Descubre perfumes de autor, fragancias exclusivas y colecciones únicas
-          seleccionadas para los amantes de la verdadera alta perfumería.
+              {t("Discover designer perfumes, exclusive fragrances and unique collections selected for lovers of true haute perfumery.")}
         </motion.p>
 
         <motion.div
@@ -80,7 +81,7 @@ const HomePage = () => {
               transition-all
             "
           >
-            Explorar fragancias
+            {t("Explore fragrances")}
           </Link>
           <Link
             href="/about"
@@ -91,7 +92,7 @@ const HomePage = () => {
               transition-all
             "
           >
-            Nuestra historia
+            {t("Our story")}
           </Link>
         </motion.div>
       </section>
@@ -105,7 +106,7 @@ const HomePage = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          Colecciones destacadas
+          {t("Featured collections")}
         </motion.h2>
 
         <div className="grid md:grid-cols-3 gap-10">
