@@ -71,10 +71,10 @@ const CartPage = () => {
     }
   };
 
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + item.productId.price * item.quantity,
-    0
-  );
+const totalPrice = cart.reduce(
+  (sum, item) => sum + (item.productId?.price ?? 0) * item.quantity,
+  0
+);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-slate-900 text-white px-6 py-14">
