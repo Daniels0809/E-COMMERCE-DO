@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Button from "../components/button/Button";
 import { useTranslation } from "react-i18next";
+import { usePersonStore } from "../store/person/person.store";
 
 const categories = [
   {
@@ -24,6 +25,8 @@ const categories = [
 ];
 
 const HomePage = () => {
+
+
   const handleClick = () => console.log("Clicked!");
   const { t } = useTranslation();
 
@@ -51,7 +54,7 @@ const HomePage = () => {
         >
           {t("The Essence of")}{" "}
           <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-500 bg-clip-text text-transparent">
-            {t("Luxury and Elegance")}  
+            {t("Luxury and Elegance")}
           </span>
         </motion.h1>
 
@@ -61,7 +64,9 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.9 }}
         >
-              {t("Discover designer perfumes, exclusive fragrances and unique collections selected for lovers of true haute perfumery.")}
+          {t(
+            "Discover designer perfumes, exclusive fragrances and unique collections selected for lovers of true haute perfumery."
+          )}
         </motion.p>
 
         <motion.div
